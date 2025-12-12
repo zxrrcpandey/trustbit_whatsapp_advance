@@ -1,0 +1,199 @@
+{
+    "actions": [],
+    "allow_rename": 0,
+    "creation": "2024-01-01 00:00:00.000000",
+    "doctype": "DocType",
+    "engine": "InnoDB",
+    "field_order": [
+        "general_section",
+        "enabled",
+        "provider",
+        "default_country_code",
+        "column_break_1",
+        "company",
+        "send_in_background",
+        "api_configuration_section",
+        "api_key",
+        "column_break_2",
+        "phone_number_id",
+        "business_account_id",
+        "webhook_section",
+        "webhook_verify_token",
+        "webhook_url",
+        "column_break_3",
+        "last_webhook_received",
+        "media_section",
+        "max_file_size_mb",
+        "column_break_4",
+        "allowed_file_types",
+        "logging_section",
+        "enable_detailed_logging",
+        "message_log_retention_days",
+        "column_break_5",
+        "last_cleanup_date"
+    ],
+    "fields": [
+        {
+            "fieldname": "general_section",
+            "fieldtype": "Section Break",
+            "label": "General Settings"
+        },
+        {
+            "default": "0",
+            "fieldname": "enabled",
+            "fieldtype": "Check",
+            "label": "Enabled"
+        },
+        {
+            "default": "360dialog",
+            "fieldname": "provider",
+            "fieldtype": "Select",
+            "label": "Provider",
+            "options": "360dialog\nGupshup\nTwilio\nMeta Direct",
+            "reqd": 1
+        },
+        {
+            "default": "91",
+            "fieldname": "default_country_code",
+            "fieldtype": "Data",
+            "label": "Default Country Code"
+        },
+        {
+            "fieldname": "column_break_1",
+            "fieldtype": "Column Break"
+        },
+        {
+            "fieldname": "company",
+            "fieldtype": "Link",
+            "label": "Company",
+            "options": "Company"
+        },
+        {
+            "default": "1",
+            "fieldname": "send_in_background",
+            "fieldtype": "Check",
+            "label": "Send in Background"
+        },
+        {
+            "fieldname": "api_configuration_section",
+            "fieldtype": "Section Break",
+            "label": "API Configuration"
+        },
+        {
+            "fieldname": "api_key",
+            "fieldtype": "Password",
+            "label": "API Key"
+        },
+        {
+            "fieldname": "column_break_2",
+            "fieldtype": "Column Break"
+        },
+        {
+            "fieldname": "phone_number_id",
+            "fieldtype": "Data",
+            "label": "Phone Number ID"
+        },
+        {
+            "fieldname": "business_account_id",
+            "fieldtype": "Data",
+            "label": "Business Account ID"
+        },
+        {
+            "fieldname": "webhook_section",
+            "fieldtype": "Section Break",
+            "label": "Webhook Configuration"
+        },
+        {
+            "fieldname": "webhook_verify_token",
+            "fieldtype": "Data",
+            "label": "Webhook Verify Token"
+        },
+        {
+            "fieldname": "webhook_url",
+            "fieldtype": "Data",
+            "label": "Webhook URL",
+            "read_only": 1
+        },
+        {
+            "fieldname": "column_break_3",
+            "fieldtype": "Column Break"
+        },
+        {
+            "fieldname": "last_webhook_received",
+            "fieldtype": "Datetime",
+            "label": "Last Webhook Received",
+            "read_only": 1
+        },
+        {
+            "fieldname": "media_section",
+            "fieldtype": "Section Break",
+            "label": "Media Settings"
+        },
+        {
+            "default": "16",
+            "fieldname": "max_file_size_mb",
+            "fieldtype": "Int",
+            "label": "Max File Size (MB)"
+        },
+        {
+            "fieldname": "column_break_4",
+            "fieldtype": "Column Break"
+        },
+        {
+            "default": "pdf,jpg,jpeg,png,doc,docx,xls,xlsx",
+            "fieldname": "allowed_file_types",
+            "fieldtype": "Data",
+            "label": "Allowed File Types"
+        },
+        {
+            "fieldname": "logging_section",
+            "fieldtype": "Section Break",
+            "label": "Logging Settings"
+        },
+        {
+            "default": "0",
+            "fieldname": "enable_detailed_logging",
+            "fieldtype": "Check",
+            "label": "Enable Detailed Logging"
+        },
+        {
+            "default": "90",
+            "fieldname": "message_log_retention_days",
+            "fieldtype": "Int",
+            "label": "Message Log Retention Days"
+        },
+        {
+            "fieldname": "column_break_5",
+            "fieldtype": "Column Break"
+        },
+        {
+            "fieldname": "last_cleanup_date",
+            "fieldtype": "Date",
+            "label": "Last Cleanup Date",
+            "read_only": 1
+        }
+    ],
+    "index_web_pages_for_search": 1,
+    "issingle": 1,
+    "links": [],
+    "modified": "2024-01-01 00:00:00.000000",
+    "modified_by": "Administrator",
+    "module": "Trustbit WhatsApp Advance",
+    "name": "WhatsApp Settings",
+    "owner": "Administrator",
+    "permissions": [
+        {
+            "create": 1,
+            "delete": 1,
+            "email": 1,
+            "print": 1,
+            "read": 1,
+            "role": "System Manager",
+            "share": 1,
+            "write": 1
+        }
+    ],
+    "sort_field": "modified",
+    "sort_order": "DESC",
+    "track_changes": 1
+}

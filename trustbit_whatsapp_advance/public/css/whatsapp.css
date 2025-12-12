@@ -1,0 +1,31 @@
+/* WhatsApp Integration Styles */
+.whatsapp-btn {
+    background-color: #25D366 !important;
+    color: white !important;
+    border-color: #25D366 !important;
+}
+
+.whatsapp-btn:hover {
+    background-color: #128C7E !important;
+    border-color: #128C7E !important;
+}
+
+.whatsapp-status-sent {
+    color: #25D366;
+}
+
+.whatsapp-status-delivered {
+    color: #34B7F1;
+}
+
+.whatsapp-status-read {
+    color: #075E54;
+}
+
+.whatsapp-status-failed {
+    color: #DC3545;
+}
+
+.whatsapp-status-pending {
+    color: #FFC107;
+}

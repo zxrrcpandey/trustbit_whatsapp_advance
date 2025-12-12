@@ -1,0 +1,20 @@
+[project]
+name = "trustbit_whatsapp_advance"
+version = "1.0.1"
+description = "Advanced WhatsApp Integration for ERPNext with Two-Way Communication"
+authors = [
+    {name = "Trustbit", email = "info@trustbit.com"}
+]
+license = {text = "MIT"}
+requires-python = ">=3.10"
+dependencies = [
+    "frappe",
+    "requests>=2.25.0"
+]
+
+[build-system]
+requires = ["flit_core>=3.4"]
+build-backend = "flit_core.buildapi"
+
+[tool.flit.module]
+name = "trustbit_whatsapp_advance"

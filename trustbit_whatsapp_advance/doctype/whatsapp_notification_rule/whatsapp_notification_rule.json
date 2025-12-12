@@ -1,0 +1,100 @@
+{
+    "actions": [],
+    "autoname": "field:rule_name",
+    "creation": "2024-01-01 00:00:00.000000",
+    "doctype": "DocType",
+    "engine": "InnoDB",
+    "field_order": [
+        "rule_name",
+        "enabled",
+        "column_break_1",
+        "reference_doctype",
+        "trigger_event",
+        "condition_section",
+        "condition",
+        "template_section",
+        "whatsapp_template"
+    ],
+    "fields": [
+        {
+            "fieldname": "rule_name",
+            "fieldtype": "Data",
+            "label": "Rule Name",
+            "reqd": 1,
+            "unique": 1
+        },
+        {
+            "default": "1",
+            "fieldname": "enabled",
+            "fieldtype": "Check",
+            "label": "Enabled"
+        },
+        {
+            "fieldname": "column_break_1",
+            "fieldtype": "Column Break"
+        },
+        {
+            "fieldname": "reference_doctype",
+            "fieldtype": "Link",
+            "label": "Reference DocType",
+            "options": "DocType",
+            "reqd": 1
+        },
+        {
+            "fieldname": "trigger_event",
+            "fieldtype": "Select",
+            "label": "Trigger Event",
+            "options": "\nafter_insert\non_update\non_submit\non_cancel\non_update_after_submit",
+            "reqd": 1
+        },
+        {
+            "fieldname": "condition_section",
+            "fieldtype": "Section Break",
+            "label": "Condition"
+        },
+        {
+            "description": "Jinja condition. e.g., {{ doc.status == 'Approved' }}",
+            "fieldname": "condition",
+            "fieldtype": "Code",
+            "label": "Condition",
+            "options": "Jinja"
+        },
+        {
+            "fieldname": "template_section",
+            "fieldtype": "Section Break",
+            "label": "Template"
+        },
+        {
+            "fieldname": "whatsapp_template",
+            "fieldtype": "Link",
+            "label": "WhatsApp Template",
+            "options": "WhatsApp Template",
+            "reqd": 1
+        }
+    ],
+    "index_web_pages_for_search": 1,
+    "links": [],
+    "modified": "2024-01-01 00:00:00.000000",
+    "modified_by": "Administrator",
+    "module": "Trustbit WhatsApp Advance",
+    "name": "WhatsApp Notification Rule",
+    "naming_rule": "By fieldname",
+    "owner": "Administrator",
+    "permissions": [
+        {
+            "create": 1,
+            "delete": 1,
+            "email": 1,
+            "export": 1,
+            "print": 1,
+            "read": 1,
+            "report": 1,
+            "role": "System Manager",
+            "share": 1,
+            "write": 1
+        }
+    ],
+    "sort_field": "modified",
+    "sort_order": "DESC",
+    "track_changes": 1
+}

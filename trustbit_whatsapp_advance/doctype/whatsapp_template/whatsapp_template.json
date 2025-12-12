@@ -1,0 +1,153 @@
+{
+    "actions": [],
+    "autoname": "field:template_name",
+    "creation": "2024-01-01 00:00:00.000000",
+    "doctype": "DocType",
+    "engine": "InnoDB",
+    "field_order": [
+        "template_name",
+        "reference_doctype",
+        "trigger_event",
+        "enabled",
+        "column_break_1",
+        "message_type",
+        "template_section",
+        "message_template",
+        "recipient_section",
+        "recipient_type",
+        "recipient_field",
+        "column_break_2",
+        "send_to_owner",
+        "send_to_assigned",
+        "attachment_section",
+        "attach_pdf",
+        "pdf_print_format"
+    ],
+    "fields": [
+        {
+            "fieldname": "template_name",
+            "fieldtype": "Data",
+            "label": "Template Name",
+            "reqd": 1,
+            "unique": 1
+        },
+        {
+            "fieldname": "reference_doctype",
+            "fieldtype": "Link",
+            "label": "Reference DocType",
+            "options": "DocType",
+            "reqd": 1
+        },
+        {
+            "fieldname": "trigger_event",
+            "fieldtype": "Select",
+            "label": "Trigger Event",
+            "options": "\nafter_insert\non_update\non_submit\non_cancel\non_update_after_submit"
+        },
+        {
+            "default": "1",
+            "fieldname": "enabled",
+            "fieldtype": "Check",
+            "label": "Enabled"
+        },
+        {
+            "fieldname": "column_break_1",
+            "fieldtype": "Column Break"
+        },
+        {
+            "default": "Text",
+            "fieldname": "message_type",
+            "fieldtype": "Select",
+            "label": "Message Type",
+            "options": "Text\nTemplate\nMedia"
+        },
+        {
+            "fieldname": "template_section",
+            "fieldtype": "Section Break",
+            "label": "Message Template"
+        },
+        {
+            "fieldname": "message_template",
+            "fieldtype": "Code",
+            "label": "Message Template",
+            "options": "Jinja"
+        },
+        {
+            "fieldname": "recipient_section",
+            "fieldtype": "Section Break",
+            "label": "Recipient Settings"
+        },
+        {
+            "default": "Field",
+            "fieldname": "recipient_type",
+            "fieldtype": "Select",
+            "label": "Recipient Type",
+            "options": "Field\nOwner\nAssigned User\nCustom"
+        },
+        {
+            "depends_on": "eval:doc.recipient_type=='Field'",
+            "fieldname": "recipient_field",
+            "fieldtype": "Data",
+            "label": "Recipient Field"
+        },
+        {
+            "fieldname": "column_break_2",
+            "fieldtype": "Column Break"
+        },
+        {
+            "default": "0",
+            "fieldname": "send_to_owner",
+            "fieldtype": "Check",
+            "label": "Send to Document Owner"
+        },
+        {
+            "default": "0",
+            "fieldname": "send_to_assigned",
+            "fieldtype": "Check",
+            "label": "Send to Assigned Users"
+        },
+        {
+            "fieldname": "attachment_section",
+            "fieldtype": "Section Break",
+            "label": "Attachment Settings"
+        },
+        {
+            "default": "0",
+            "fieldname": "attach_pdf",
+            "fieldtype": "Check",
+            "label": "Attach PDF"
+        },
+        {
+            "depends_on": "attach_pdf",
+            "fieldname": "pdf_print_format",
+            "fieldtype": "Link",
+            "label": "PDF Print Format",
+            "options": "Print Format"
+        }
+    ],
+    "index_web_pages_for_search": 1,
+    "links": [],
+    "modified": "2024-01-01 00:00:00.000000",
+    "modified_by": "Administrator",
+    "module": "Trustbit WhatsApp Advance",
+    "name": "WhatsApp Template",
+    "naming_rule": "By fieldname",
+    "owner": "Administrator",
+    "permissions": [
+        {
+            "create": 1,
+            "delete": 1,
+            "email": 1,
+            "export": 1,
+            "print": 1,
+            "read": 1,
+            "report": 1,
+            "role": "System Manager",
+            "share": 1,
+            "write": 1
+        }
+    ],
+    "sort_field": "modified",
+    "sort_order": "DESC",
+    "track_changes": 1
+}
