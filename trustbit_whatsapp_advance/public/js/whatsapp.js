@@ -58,7 +58,7 @@ trustbit_whatsapp.send_message = function(frm) {
                         frappe.msgprint(__("Message sent successfully!"));
                         d.hide();
                     } else {
-                        frappe.msgprint(__("Failed to send message: {0}", [r.message.error || "Unknown error"]));
+                        frappe.msgprint(__("Failed to send message. Please try again."));
                     }
                 }
             });

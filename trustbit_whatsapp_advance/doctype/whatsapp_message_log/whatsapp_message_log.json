@@ -49,7 +49,7 @@
             "fieldtype": "Select",
             "in_list_view": 1,
             "label": "Status",
-            "options": "Pending\nSent\nDelivered\nRead\nFailed"
+            "options": "Pending\nSent\nDelivered\nRead\nFailed\nReceived"
         },
         {
             "fieldname": "column_break_1",
