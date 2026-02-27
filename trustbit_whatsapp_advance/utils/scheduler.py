@@ -1,6 +1,6 @@
 import frappe
 import json
-from frappe.utils import add_days, add_minutes, nowdate, now_datetime
+from frappe.utils import add_days, add_to_date, nowdate, now_datetime
 
 
 def process_pending_messages():
@@ -15,7 +15,7 @@ def process_pending_messages():
         if not settings.enabled:
             return
 
-        cutoff = add_minutes(now_datetime(), -2)
+        cutoff = add_to_date(now_datetime(), minutes=-2)
 
         pending_logs = frappe.get_all(
             "WhatsApp Message Log",
