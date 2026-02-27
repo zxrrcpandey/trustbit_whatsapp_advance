@@ -122,3 +122,21 @@ function add_whatsapp_button(frm) {
         trustbit_whatsapp.send_message(frm);
     }, __("Send"));
 }
+
+// Register WhatsApp button on all supported DocTypes
+(function() {
+    var doctypes = [
+        "Sales Order", "Sales Invoice", "Purchase Order", "Purchase Invoice",
+        "Quotation", "Supplier Quotation", "Material Request",
+        "Delivery Note", "Purchase Receipt", "Lead", "Project", "Task"
+    ];
+    doctypes.forEach(function(dt) {
+        frappe.ui.form.on(dt, {
+            refresh: function(frm) {
+                if (!frm.is_new()) {
+                    add_whatsapp_button(frm);
+                }
+            }
+        });
+    });
+})();
