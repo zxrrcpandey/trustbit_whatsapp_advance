@@ -2,25 +2,21 @@
 frappe.provide("trustbit_whatsapp");
 
 trustbit_whatsapp.send_message = function(frm) {
-    // Get recipient field based on doctype
+    // Get recipient from document (may be empty)
     let recipient_field = get_recipient_field(frm.doctype);
-    let recipient = frm.doc[recipient_field];
-    
-    if (!recipient) {
-        frappe.msgprint(__("No phone number found in {0}", [recipient_field]));
-        return;
-    }
-    
-    // Show dialog
+    let recipient = frm.doc[recipient_field] || "";
+
+    // Show dialog (always opens, even without a number)
     let d = new frappe.ui.Dialog({
         title: __("Send WhatsApp Message"),
         fields: [
             {
-                fieldname: "recipient",
-                fieldtype: "Data",
-                label: __("Recipient"),
+                fieldname: "recipients",
+                fieldtype: "Small Text",
+                label: __("Recipient(s)"),
                 default: recipient,
-                reqd: 1
+                reqd: 1,
+                description: __("Enter one or more phone numbers, separated by comma or new line")
             },
             {
                 fieldname: "template",
@@ -45,26 +41,61 @@ trustbit_whatsapp.send_message = function(frm) {
         ],
         primary_action_label: __("Send"),
         primary_action: function(values) {
-            frappe.call({
-                method: "trustbit_whatsapp_advance.api.whatsapp.send_message",
-                args: {
-                    recipient: values.recipient,
-                    message: values.message,
-                    reference_doctype: frm.doctype,
-                    reference_name: frm.doc.name
-                },
-                callback: function(r) {
-                    if (r.message && r.message.success) {
-                        frappe.msgprint(__("Message sent successfully!"));
-                        d.hide();
+            // Parse multiple numbers (comma or newline separated)
+            let numbers = values.recipients
+                .split(/[,\n]+/)
+                .map(function(n) { return n.trim(); })
+                .filter(function(n) { return n.length > 0; });
+
+            if (numbers.length === 0) {
+                frappe.msgprint(__("Please enter at least one phone number"));
+                return;
+            }
+
+            d.disable_primary_action();
+            let sent = 0;
+            let failed = 0;
+            let total = numbers.length;
+
+            function send_next(index) {
+                if (index >= total) {
+                    d.enable_primary_action();
+                    if (failed === 0) {
+                        frappe.msgprint(__("Message sent successfully to {0} recipient(s)!", [sent]));
                     } else {
-                        frappe.msgprint(__("Failed to send message. Please try again."));
+                        frappe.msgprint(__("Sent to {0}, failed for {1} recipient(s)", [sent, failed]));
                     }
+                    d.hide();
+                    return;
                 }
-            });
+
+                frappe.call({
+                    method: "trustbit_whatsapp_advance.api.whatsapp.send_message",
+                    args: {
+                        recipient: numbers[index],
+                        message: values.message,
+                        reference_doctype: frm.doctype,
+                        reference_name: frm.doc.name
+                    },
+                    callback: function(r) {
+                        if (r.message && r.message.success) {
+                            sent++;
+                        } else {
+                            failed++;
+                        }
+                        send_next(index + 1);
+                    },
+                    error: function() {
+                        failed++;
+                        send_next(index + 1);
+                    }
+                });
+            }
+
+            send_next(0);
         }
     });
-    
+
     // Load template message if selected
     d.fields_dict.template.$input.on("change", function() {
         let template = d.get_value("template");
@@ -77,7 +108,6 @@ trustbit_whatsapp.send_message = function(frm) {
                 },
                 callback: function(r) {
                     if (r.message) {
-                        // Render template with current doc
                         frappe.call({
                             method: "frappe.utils.jinja.render_template",
                             args: {
@@ -95,7 +125,7 @@ trustbit_whatsapp.send_message = function(frm) {
             });
         }
     });
-    
+
     d.show();
 };
 
