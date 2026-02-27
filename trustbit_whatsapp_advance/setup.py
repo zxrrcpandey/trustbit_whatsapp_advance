@@ -18,15 +18,15 @@ def after_install():
 def create_module_def():
     """Create the Module Def for this app."""
     try:
-        if not frappe.db.exists("Module Def", "Trustbit WhatsApp Advance"):
+        if not frappe.db.exists("Module Def", "Trustbit WhatsApp"):
             module_def = frappe.new_doc("Module Def")
-            module_def.module_name = "Trustbit WhatsApp Advance"
+            module_def.module_name = "Trustbit WhatsApp"
             module_def.app_name = "trustbit_whatsapp_advance"
             module_def.flags.ignore_mandatory = True
             module_def.flags.ignore_permissions = True
             module_def.insert()
             frappe.db.commit()
-            logger.info("Created Module Def: Trustbit WhatsApp Advance")
+            logger.info("Created Module Def: Trustbit WhatsApp")
         else:
             logger.info("Module Def already exists")
     except Exception as e:
@@ -36,7 +36,7 @@ def create_module_def():
 def sync_doctypes():
     """Sync all DocTypes from JSON files."""
     app_path = frappe.get_app_path("trustbit_whatsapp_advance")
-    doctype_path = os.path.join(app_path, "doctype")
+    doctype_path = os.path.join(app_path, "trustbit_whatsapp", "doctype")
 
     if not os.path.exists(doctype_path):
         logger.warning(f"DocType path not found: {doctype_path}")
