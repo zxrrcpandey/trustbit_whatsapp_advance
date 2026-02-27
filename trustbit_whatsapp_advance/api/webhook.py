@@ -32,8 +32,16 @@ def receive():
         return {"status": "error"}
 
 
-def verify_webhook():
-    """Verify webhook subscription (GET handshake from WhatsApp)."""
+@frappe.whitelist(allow_guest=True)
+def verify():
+    """Dedicated GET endpoint for Meta webhook verification.
+
+    Meta expects the raw challenge string as plain text, not JSON.
+    Use this URL in Meta's webhook configuration:
+    https://your-site.com/api/method/trustbit_whatsapp_advance.api.webhook.verify
+    """
+    from werkzeug.wrappers import Response
+
     mode = frappe.request.args.get("hub.mode")
     token = frappe.request.args.get("hub.verify_token")
     challenge = frappe.request.args.get("hub.challenge")
@@ -44,7 +52,35 @@ def verify_webhook():
     settings = frappe.get_single("WhatsApp Settings")
 
     if mode == "subscribe" and token == settings.get_password("webhook_verify_token"):
-        return challenge
+        # Return raw challenge string — Meta requires plain text, not JSON
+        return Response(challenge, status=200, content_type="text/plain")
+
+    frappe.throw("Webhook verification failed", frappe.AuthenticationError)
+
+
+def verify_webhook():
+    """Verify webhook subscription (GET handshake from WhatsApp).
+
+    Returns the challenge as plain int so Meta gets a raw number back
+    (Frappe wraps strings in JSON, but returns ints as-is in the message field).
+    """
+    mode = frappe.request.args.get("hub.mode")
+    token = frappe.request.args.get("hub.verify_token")
+    challenge = frappe.request.args.get("hub.challenge")
+
+    if not mode or not token or not challenge:
+        frappe.throw("Missing verification parameters", frappe.AuthenticationError)
+
+    settings = frappe.get_single("WhatsApp Settings")
+
+    if mode == "subscribe" and token == settings.get_password("webhook_verify_token"):
+        # Return as int if possible — Frappe JSON-wraps strings but Meta
+        # accepts {"message": 12345} too. The dedicated /verify endpoint
+        # returns raw plain text for strict compatibility.
+        try:
+            return int(challenge)
+        except (ValueError, TypeError):
+            return challenge
 
     frappe.throw("Webhook verification failed", frappe.AuthenticationError)
 
