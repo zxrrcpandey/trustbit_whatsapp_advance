@@ -4,7 +4,7 @@ app_publisher = "Trustbit"
 app_description = "Advanced WhatsApp Integration for ERPNext with Two-Way Communication"
 app_email = "info@trustbit.com"
 app_license = "MIT"
-app_version = "1.0.1"
+app_version = "1.0.2"
 
 # App JS (loaded on every desk page — provides the trustbit_whatsapp namespace)
 app_include_js = "/assets/trustbit_whatsapp_advance/js/whatsapp.js"
