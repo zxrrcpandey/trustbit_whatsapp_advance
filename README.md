@@ -3,13 +3,15 @@
 Advanced WhatsApp Integration for ERPNext with Two-Way Communication
 
 ## Version
-1.0.2
+1.0.1
+
+> **Note:** `hooks.py` declares `app_version = "1.0.2"`, but the package version in `setup.py`, `pyproject.toml`, and `__init__.py` is still 1.0.1 — this is what `bench version` reports. The effective installed version is **1.0.1** until the packaging files are bumped.
 
 ## Features
 - Multi-provider support (360dialog, Gupshup, Twilio, Meta Direct)
 - Send WhatsApp messages directly from Sales Order, Sales Invoice, Purchase Order, Purchase Invoice, Quotation, Supplier Quotation, Material Request, Delivery Note, Purchase Receipt, Lead, Project, and Task forms
 - Template-based messaging with Jinja2 support
-- Automatic notifications on document events (submit, update)
+- Automatic notifications on document events (submit and post-submit update for transaction documents; creation and update for Lead, Project, and Task)
 - Two-way communication with incoming message processing via webhook
 - HMAC signature verification for webhook security
 - Message logging with delivery status tracking (Pending, Sent, Delivered, Read, Failed, Received)
@@ -34,12 +36,19 @@ sudo supervisorctl restart all
 2. Check **Enabled**
 3. Select your **Provider** (e.g., Meta Direct)
 4. Enter your **API credentials**:
-   - **API Key** — Your provider's App Secret (used for HMAC webhook verification)
-   - **Access Token** — Permanent or temporary token for sending messages
+   - **API Key** — a single field that plays two roles:
+     - *Sending credential* (what to enter depends on the provider):
+       - **Meta Direct** — your permanent or temporary Access Token (sent as `Authorization: Bearer`)
+       - **360dialog** — your `D360-API-KEY`
+       - **Gupshup** — your `apikey`
+       - **Twilio** — your Auth Token (used for basic auth together with the Account SID, see Business Account ID below)
+     - *Webhook HMAC secret* — the same value is used as the app secret to verify the `X-Hub-Signature-256` header on incoming webhook POSTs
    - **Phone Number ID** — Your WhatsApp Business phone number ID
-   - **Business Account ID** — Your WhatsApp Business Account ID
+   - **Business Account ID** — Your WhatsApp Business Account ID (for Twilio, enter the Account SID here)
    - **Webhook Verify Token** — A secret token you choose for webhook handshake verification
 5. Save
+
+> **Meta Direct limitation:** Meta uses two *different* credentials — the Access Token (for sending) and the App Secret (for webhook signatures). Since there is only one API Key field, you cannot configure both correctly at once: with the Access Token stored (required for sending), Meta's signed webhook POSTs will fail HMAC verification, because the signature is computed with the App Secret. Only webhook requests without a signature header fall back to the verify-token check. For the other providers the sending credential and HMAC secret are the same value, so there is no conflict.
 
 ### Meta Direct Webhook Setup
 1. Go to [Meta Developer Console](https://developers.facebook.com/) > Your App > WhatsApp > Configuration
